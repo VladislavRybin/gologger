@@ -48,15 +48,13 @@ func findKeyboards() []int {
 
 	devices := 0
 	keyboards := 0
-	for i := 0; i< MAX_FILES; i++ {
+	for i := 0; fileExists(fmt.Sprintf(UEVENT_FILE, i)); i++ {
 
 		var buff []byte
 		var err error
 
-		if (fileExists(fmt.Sprintf(UEVENT_FILE, i))) {
-			buff, err = ioutil.ReadFile(fmt.Sprintf(UEVENT_FILE, i))
-			check(err)
-		}
+		buff, err = ioutil.ReadFile(fmt.Sprintf(UEVENT_FILE, i))
+		check(err)
 
 		if isKeyboard(string(buff)) {
 			keyboard_indices = append(keyboard_indices, i)
